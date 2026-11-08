@@ -53,7 +53,7 @@
         2. <strong>手动运行</strong>：其他工具可通过 Payload Manager 发送到 PS5 的 <code>9021</code> 端口运行。
     </div>
 
-    <div class="status-bar" id="status-bar">🔄 正在连接服务器获取最新插件数据...</div>
+    <div class="status-bar" id="status-bar">🔄 正在直连服务器获取最新插件数据...</div>
 
     <table>
         <thead>
@@ -132,37 +132,19 @@
 
         const priorityOrder = ["kstuff-lite", "ShadowMountPlus", "nanoDNS", "onionHEN", "ps5-web-file-manager", "pldmgr", "PKG-Manager"];
 
+        // 🔥 取消代理，直接请求
         const TARGET_URL = 'https://itsplk.github.io/ps5-payloads-mirror/payloads.json';
 
         async function loadPluginData() {
             const tbody = document.getElementById('plugin-tbody');
             const statusBar = document.getElementById('status-bar');
             
-            const proxyList = [
-                `https://corsproxy.io/?${encodeURIComponent(TARGET_URL)}`,
-                `https://api.allorigins.win/raw?url=${encodeURIComponent(TARGET_URL)}`
-            ];
-
-            let data = null;
-
-            for (let proxy of proxyList) {
-                try {
-                    statusBar.innerHTML = `🔄 正在通过代理节点拉取最新数据...`;
-                    const response = await fetch(proxy);
-                    if (!response.ok) throw new Error('网络请求失败');
-                    data = await response.json();
-                    break;
-                } catch (error) {
-                    console.warn(`代理节点失败: ${proxy}`, error);
-                }
-            }
-
-            if (!data) {
-                statusBar.innerHTML = `<span style="color: #f87171;">⚠️ 所有代理节点均获取失败，请稍后刷新页面重试。</span>`;
-                return;
-            }
-
             try {
+                statusBar.innerHTML = `🔄 正在直连服务器获取最新插件数据...`;
+                const response = await fetch(TARGET_URL);
+                if (!response.ok) throw new Error('网络请求失败');
+                let data = await response.json();
+
                 data = data.filter(item => zhDatabase[item.name] || priorityOrder.includes(item.name));
                 data.sort((a, b) => {
                     let indexA = priorityOrder.indexOf(a.name);
@@ -196,8 +178,8 @@
                 });
 
             } catch (error) {
-                console.error('解析数据失败:', error);
-                statusBar.innerHTML = `<span style="color: #f87171;">⚠️ 数据解析失败，请稍后刷新重试。</span>`;
+                console.error('获取在线数据失败:', error);
+                statusBar.innerHTML = `<span style="color: #f87171;">⚠️ 数据获取失败（大概率是跨域限制 CORS），请稍后刷新重试。</span>`;
             }
         }
 
