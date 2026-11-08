@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS5 实用插件中文大全</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #121212;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 10px;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+        .status-bar {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #333333;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #2d3748;
+            color: #ffffff;
+            font-weight: bold;
+            border-bottom: 2px solid #4a5568;
+            text-align: left;
+        }
+        tr:nth-child(even) { background-color: #252525; }
+        tr:hover { background-color: #2c2c2c; transition: background-color 0.2s ease; }
+        .payload-name { font-weight: bold; color: #60a5fa; text-align: left; }
+        .desc-col { text-align: left; }
+        .version {
+            font-family: monospace; background: #333; color: #a0aec0;
+            padding: 2px 6px; border-radius: 4px; font-size: 0.9em;
+            border: 1px solid #444; white-space: nowrap;
+        }
+        .update-time { font-family: monospace; color: #9ca3af; font-size: 0.9em; }
+        .desc-zh { color: #f87171; font-weight: bold; }
+        .tag {
+            display: inline-block; padding: 3px 8px; border-radius: 12px;
+            font-size: 0.85em; font-weight: bold; white-space: nowrap;
+        }
+        .tag-must { background-color: rgba(220, 38, 38, 0.2); color: #fca5a5; border: 1px solid rgba(220, 38, 38, 0.4); }
+        .tag-rec { background-color: rgba(22, 163, 74, 0.2); color: #86efac; border: 1px solid rgba(22, 163, 74, 0.4); }
+        .tag-opt { background-color: rgba(107, 114, 128, 0.2); color: #d1d5db; border: 1px solid rgba(107, 114, 128, 0.4); }
+        
+        a { color: #60a5fa; text-decoration: none; font-weight: bold; transition: color 0.2s; }
+        a:hover { color: #93c5fd; text-decoration: underline; }
+        
+        .download-btn {
+            display: inline-block; background-color: #2563eb; color: white;
+            padding: 6px 12px; border-radius: 6px; text-align: center;
+            transition: background-color 0.2s, transform 0.1s; cursor: pointer; white-space: nowrap;
+        }
+        .download-btn:hover { background-color: #1d4ed8; text-decoration: none; transform: translateY(-1px); }
+        
+        .note {
+            background-color: rgba(245, 158, 11, 0.1); color: #fcd34d;
+            padding: 15px; border-left: 4px solid #f59e0b;
+            border-radius: 4px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .note code { background-color: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; color: #fcd34d; }
+        
+        footer {
+            margin-top: 50px; padding: 25px; text-align: center;
+            color: #a0aec0; font-size: 0.9em; border-top: 1px solid #333;
+        }
+
+        /* 特定列居中对齐 */
+        th:nth-child(2), td:nth-child(2),
+        th:nth-child(3), td:nth-child(3),
+        th:nth-child(5), td:nth-child(5),
+        th:nth-child(6), td:nth-child(6),
+        th:nth-child(7), td:nth-child(7) { text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1>🧰 PS5 实用插件中文大全</h1>
+    
+    <div class="note">
+        <strong>💡 安装说明：</strong><br>
+        1. <strong>自动加载</strong>：想开机或破解后自动运行的插件（如 kstuff、nanoDNS），放入 <code>/data/ps5_autoloader/</code> 并在 <code>autoload.txt</code> 中配置。<br>
+        2. <strong>手动运行</strong>：其他工具可通过 Payload Manager 发送到 PS5 的 <code>9021</code> 端口运行。
+    </div>
+
+    <div class="status-bar" id="status-bar">🔄 正在连接服务器获取最新插件数据...</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="15%">插件名称</th>
+                <th width="12%">版本</th>
+                <th width="12%">更新时间</th>
+                <th width="30%">中文功能说明</th>
+                <th width="10%">建议</th>
+                <th width="8%">来源</th>
+                <th width="13%">下载</th>
+            </tr>
+        </thead>
+        <tbody id="plugin-tbody">
+            <!-- 表格内容将由 JavaScript 自动生成 -->
+        </tbody>
+    </table>
+
+    <footer>
+        <p><strong>特别感谢：</strong> 所有为 PS5 破解社区默默奉献的开发者们（如 EchoStretch, drakmor, itsPLK, ps5-payload-dev 团队等），以及提供镜像服务的 PS5 Payloads Mirror。</p>
+        <p><strong>整理与汉化：</strong> HackPan | <strong>动态数据源：</strong> itsPLK Mirror</p>
+        
+        <div style="margin-top: 15px; color: #718096; font-size: 0.85em;">
+            <span id="busuanzi_container_site_pv" style="display:none;">
+                👀 总访问量 <span id="busuanzi_value_site_pv" style="color: #60a5fa; font-weight: bold;">0</span> 次 | 
+            </span>
+            <span id="busuanzi_container_site_uv" style="display:none;">
+                👤 访客数 <span id="busuanzi_value_site_uv" style="color: #60a5fa; font-weight: bold;">0</span> 人
+            </span>
+        </div>
+
+        <p style="margin-top: 15px; font-size: 0.85em; color: #718096;">
+            &copy; 2026 PS5 实用插件中文大全. 本页面仅供学习与交流使用，请支持正版游戏。<br>
+            插件版权归各自原作者所有。
+        </p>
+    </footer>
+
+    <script>
+        // 中文翻译字典
+        const zhDatabase = {
+            "kstuff-lite": { desc: "【核心引擎】 精简版 kstuff。让破解游戏和自制程序能跑起来的底层补丁。", tag: "必装" },
+            "ShadowMountPlus": { desc: "【游戏挂载】 全自动后台挂载器。把你外接硬盘或内置文件夹里的游戏自动显示在桌面上。", tag: "必装" },
+            "nanoDNS": { desc: "【防更新利器】 本地 DNS 代理服务器。配合 127.0.0.1 使用，拦截索尼更新服务器，保护系统版本。", tag: "必装" },
+            "onionHEN": { desc: "【整合工具箱】 基于 etaHEN 构建，自带金手指、防更新、监控条等实用功能，省去挨个发插件的麻烦。", tag: "推荐" },
+            "ps5-web-file-manager": { desc: "【文件管理】 带网页界面的文件管理器。电脑浏览器输入 PS5 IP 即可管理文件。", tag: "推荐" },
+            "pldmgr": { desc: "【载荷管理器】 现代化网页仪表盘，方便在电脑上管理、导入和自动加载 PS5 插件。", tag: "推荐" },
+            "PKG-Manager": { desc: "【安装器】 直接从 U 盘、光盘或 SMB 共享中浏览并安装 PKG 格式游戏。", tag: "推荐" },
+            "LiveShell": { desc: "【动态壁纸】 为 PS5 主屏幕添加动态背景视频（支持自定义 mp4）。", tag: "推荐" },
+            "ps4mount": { desc: "【PS4游戏直读】 免安装，直接从 U 盘挂载并运行 PS4 FPKG 游戏。", tag: "按需" },
+            "NeoEnabler": { desc: "【PS4画质解锁】 让没有 PS4 Pro 补丁的 PS4 游戏获得更高分辨率补丁。", tag: "按需" },
+            "CheatRunner": { desc: "【金手指】 基于网页的游戏作弊修改器。", tag: "按需" },
+            "garlic-savemgr": { desc: "【存档管理】 带网页界面的存档解密、加密和浏览工具。", tag: "按需" },
+            "ftpsrv": { desc: "【FTP传输】 简单的 FTP 服务器，监听 2121 端口，用电脑 FileZilla 传文件。", tag: "按需" },
+            "ftpsrv-drakmor": { desc: "【FTP传输-修改版】 drakmor 修改的稳定版 FTP 服务器。", tag: "按需" },
+            "ps5upload": { desc: "【极速传输】 从电脑向 PS5 高速传输文件（需配合电脑端软件）。", tag: "按需" },
+            "elfldr": { desc: "【载荷加载器】 监听 9021 端口，接收并运行发送过来的 ELF 文件。", tag: "按需" },
+            "ps5-date-time-sync": { desc: "【时间同步】 使用公共 NTP 服务器自动恢复系统日期和时间。", tag: "按需" },
+            "WebKit-Autoloader-Installer": { desc: "【网页破解辅助】 在桌面安装 WebKit 自动加载器（支持 7.00-13.60）。", tag: "按需" },
+            "ps5-linux-loader": { desc: "【Linux引导】 利用 HV 漏洞运行自定义引导加载程序的 Linux 载荷。", tag: "极客" },
+            "ps5-app-dumper": { desc: "【文件导出】 将 PS5 的应用程序文件提取导出到连接的 U 盘。", tag: "极客" },
+            "ps5-dump-forge": { desc: "【Dump工具包】 用于处理 PS5 游戏 Dump 文件的工具包。", tag: "极客" },
+            "etaHEN": { desc: "【全能破解环境】 经典的 AIO 破解集成包（建议用 OnionHEN 替代）。", tag: "极客" },
+            "websrv": { desc: "【Web服务器】 在 PS5 上运行一个简单的 Web 服务器（监听 8080 端口）。", tag: "极客" },
+            "shsrv": { desc: "【Shell服务器】 提供一个类似 Telnet 的 Shell 服务器（监听 2323 端口）。", tag: "极客" },
+            "klogsrv": { desc: "【内核日志】 将 PS5 的内核日志重定向到端口 3232，用于调试。", tag: "极客" },
+            "ps5debug-NG": { desc: "【调试工具】 功能强大的 PS5 调试器，支持内存扫描和注入。", tag: "极客" }
+        };
+
+        function getTagHtml(tag) {
+            if (tag === "必装") return `<span class="tag tag-must">必装</span>`;
+            if (tag === "推荐") return `<span class="tag tag-rec">推荐</span>`;
+            if (tag === "极客") return `<span class="tag tag-opt" style="background-color:rgba(59,130,246,0.2); color:#93c5fd; border-color:#60a5fa;">极客</span>`;
+            return `<span class="tag tag-opt">按需</span>`;
+        }
+
+        const priorityOrder = ["kstuff-lite", "ShadowMountPlus", "nanoDNS", "onionHEN", "ps5-web-file-manager", "pldmgr", "PKG-Manager"];
+
+        // 🔥 这里使用了代理接口，解决了跨域(CORS)问题 🔥
+        const RAW_URL = 'https://itsplk.github.io/ps5-payloads-mirror/payloads.json';
+        const DATA_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(RAW_URL)}`;
+
+        async function loadPluginData() {
+            const tbody = document.getElementById('plugin-tbody');
+            const statusBar = document.getElementById('status-bar');
+            
+            try {
+                const response = await fetch(DATA_URL);
+                if (!response.ok) throw new Error('网络请求失败');
+                let data = await response.json();
+
+                data = data.filter(item => zhDatabase[item.name] || priorityOrder.includes(item.name));
+                
+                data.sort((a, b) => {
+                    let indexA = priorityOrder.indexOf(a.name);
+                    let indexB = priorityOrder.indexOf(b.name);
+                    if (indexA === -1) indexA = 999;
+                    if (indexB === -1) indexB = 999;
+                    return indexA - indexB;
+                });
+
+                tbody.innerHTML = '';
+                statusBar.innerHTML = `✅ 数据已同步 | 数据源：PS5 Payloads Mirror | 获取时间：${new Date().toLocaleString()}`;
+
+                data.forEach(plugin => {
+                    const info = zhDatabase[plugin.name] || { desc: plugin.description, tag: "按需" };
+                    const version = plugin.version || '-';
+                    const updateTime = plugin.last_update || '-';
+                    const downloadUrl = plugin.url || '#';
+                    const sourceUrl = plugin.source || '#';
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="payload-name">${plugin.name}</td>
+                        <td><span class="version">${version}</span></td>
+                        <td class="update-time">${updateTime}</td>
+                        <td class="desc-col"><span class="desc-zh">${info.desc.substring(0, 6)}</span>${info.desc.substring(6)}</td>
+                        <td>${getTagHtml(info.tag)}</td>
+                        <td><a href="${sourceUrl}" target="_blank">Source</a></td>
+                        <td><a href="${downloadUrl}" class="download-btn" target="_blank" title="${info.desc}">下载</a></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+            } catch (error) {
+                console.error('获取在线数据失败:', error);
+                statusBar.innerHTML = `<span style="color: #f87171;">⚠️ 数据获取失败，请稍后刷新重试。</span>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPluginData);
+    </script>
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.0/busuanzi.pure.mini.js"></script>
+</body>
+</html>
