@@ -39,14 +39,14 @@
         th, td {
             padding: 12px 15px;
             border: 1px solid #333333;
-            vertical-align: middle; /* 默认垂直居中 */
+            vertical-align: middle;
         }
         th {
             background-color: #2d3748;
             color: #ffffff;
             font-weight: bold;
             border-bottom: 2px solid #4a5568;
-            text-align: left; /* 表头默认左对齐 */
+            text-align: left;
         }
         tr:nth-child(even) {
             background-color: #252525;
@@ -58,10 +58,10 @@
         .payload-name {
             font-weight: bold;
             color: #60a5fa;
-            text-align: left; /* 名称左对齐 */
+            text-align: left;
         }
         .desc-col {
-            text-align: left; /* 说明左对齐 */
+            text-align: left;
         }
         .version {
             font-family: monospace;
@@ -147,8 +147,7 @@
             border-top: 1px solid #333;
         }
 
-        /* --- 新增：特定列居中对齐 --- */
-        /* 对应列：版本(2), 更新时间(3), 建议(5), 来源(6), 下载(7) */
+        /* 特定列居中对齐 */
         th:nth-child(2), td:nth-child(2),
         th:nth-child(3), td:nth-child(3),
         th:nth-child(5), td:nth-child(5),
@@ -190,6 +189,18 @@
     <footer>
         <p><strong>特别感谢：</strong> 所有为 PS5 破解社区默默奉献的开发者们（如 EchoStretch, drakmor, itsPLK, ps5-payload-dev 团队等），以及提供镜像服务的 PS5 Payloads Mirror。</p>
         <p><strong>整理与汉化：</strong> HackPan | <strong>动态数据源：</strong> itsPLK Mirror</p>
+        
+        <!-- 访问统计代码开始 -->
+        <div style="margin-top: 15px; color: #718096; font-size: 0.85em;">
+            <span id="busuanzi_container_site_pv" style="display:none;">
+                👀 总访问量 <span id="busuanzi_value_site_pv" style="color: #60a5fa; font-weight: bold;">0</span> 次 | 
+            </span>
+            <span id="busuanzi_container_site_uv" style="display:none;">
+                👤 访客数 <span id="busuanzi_value_site_uv" style="color: #60a5fa; font-weight: bold;">0</span> 人
+            </span>
+        </div>
+        <!-- 访问统计代码结束 -->
+
         <p style="margin-top: 15px; font-size: 0.85em; color: #718096;">
             &copy; 2026 PS5 实用插件中文大全. 本页面仅供学习与交流使用，请支持正版游戏。<br>
             插件版权归各自原作者所有。
@@ -291,5 +302,8 @@
 
         document.addEventListener('DOMContentLoaded', loadPluginData);
     </script>
+    
+    <!-- 引入不蒜子统计脚本 -->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.0/busuanzi.pure.mini.js"></script>
 </body>
 </html>
