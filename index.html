@@ -39,14 +39,14 @@
         th, td {
             padding: 12px 15px;
             border: 1px solid #333333;
-            text-align: left;
-            vertical-align: top;
+            vertical-align: middle; /* 默认垂直居中 */
         }
         th {
             background-color: #2d3748;
             color: #ffffff;
             font-weight: bold;
             border-bottom: 2px solid #4a5568;
+            text-align: left; /* 表头默认左对齐 */
         }
         tr:nth-child(even) {
             background-color: #252525;
@@ -58,6 +58,10 @@
         .payload-name {
             font-weight: bold;
             color: #60a5fa;
+            text-align: left; /* 名称左对齐 */
+        }
+        .desc-col {
+            text-align: left; /* 说明左对齐 */
         }
         .version {
             font-family: monospace;
@@ -84,7 +88,6 @@
             border-radius: 12px;
             font-size: 0.85em;
             font-weight: bold;
-            margin-bottom: 5px;
             white-space: nowrap;
         }
         .tag-must { background-color: rgba(220, 38, 38, 0.2); color: #fca5a5; border: 1px solid rgba(220, 38, 38, 0.4); }
@@ -143,6 +146,16 @@
             font-size: 0.9em; 
             border-top: 1px solid #333;
         }
+
+        /* --- 新增：特定列居中对齐 --- */
+        /* 对应列：版本(2), 更新时间(3), 建议(5), 来源(6), 下载(7) */
+        th:nth-child(2), td:nth-child(2),
+        th:nth-child(3), td:nth-child(3),
+        th:nth-child(5), td:nth-child(5),
+        th:nth-child(6), td:nth-child(6),
+        th:nth-child(7), td:nth-child(7) {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -184,7 +197,7 @@
     </footer>
 
     <script>
-        // 1. 你的中文翻译字典（如果 JSON 里有新的插件，会自动显示英文说明）
+        // 1. 你的中文翻译字典
         const zhDatabase = {
             "kstuff-lite": { desc: "【核心引擎】 精简版 kstuff。让破解游戏和自制程序能跑起来的底层补丁。", tag: "必装" },
             "ShadowMountPlus": { desc: "【游戏挂载】 全自动后台挂载器。把你外接硬盘或内置文件夹里的游戏自动显示在桌面上。", tag: "必装" },
@@ -225,8 +238,7 @@
         // 3. 核心插件优先展示顺序
         const priorityOrder = ["kstuff-lite", "ShadowMountPlus", "nanoDNS", "onionHEN", "ps5-web-file-manager", "pldmgr", "PKG-Manager"];
 
-        // 4. 数据源地址 (使用你提供的 JSON 文件 raw 链接)
-        // 注意：如果直接请求报错，建议把你给的 JSON 文件传到你的 Github 仓库里，然后把这里改成 "./payloads.json"
+        // 4. 数据源地址
         const DATA_URL = 'https://itsplk.github.io/ps5-payloads-mirror/payloads.json';
 
         async function loadPluginData() {
@@ -234,15 +246,12 @@
             const statusBar = document.getElementById('status-bar');
             
             try {
-                // 发起网络请求
                 const response = await fetch(DATA_URL);
                 if (!response.ok) throw new Error('网络请求失败');
                 let data = await response.json();
 
-                // 只保留我们中文数据库里有的插件，或者核心列表里的
                 data = data.filter(item => zhDatabase[item.name] || priorityOrder.includes(item.name));
                 
-                // 按照 priorityOrder 进行置顶排序
                 data.sort((a, b) => {
                     let indexA = priorityOrder.indexOf(a.name);
                     let indexB = priorityOrder.indexOf(b.name);
@@ -254,23 +263,19 @@
                 tbody.innerHTML = '';
                 statusBar.innerHTML = `✅ 数据已同步 | 数据源：PS5 Payloads Mirror | 获取时间：${new Date().toLocaleString()}`;
 
-                // 渲染表格
                 data.forEach(plugin => {
-                    // 获取中文信息，如果没有则使用 JSON 里的英文描述
                     const info = zhDatabase[plugin.name] || { desc: plugin.description, tag: "按需" };
-                    
-                    // 从 JSON 提取数据
                     const version = plugin.version || '-';
-                    const updateTime = plugin.last_update || '-'; // 你提供的 JSON 用的是 last_update 字段
-                    const downloadUrl = plugin.url || '#';        // 你提供的 JSON 用的是 url 字段
-                    const sourceUrl = plugin.source || '#';       // 源地址
+                    const updateTime = plugin.last_update || '-';
+                    const downloadUrl = plugin.url || '#';
+                    const sourceUrl = plugin.source || '#';
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td class="payload-name">${plugin.name}</td>
                         <td><span class="version">${version}</span></td>
                         <td class="update-time">${updateTime}</td>
-                        <td><span class="desc-zh">${info.desc.substring(0, 6)}</span>${info.desc.substring(6)}</td>
+                        <td class="desc-col"><span class="desc-zh">${info.desc.substring(0, 6)}</span>${info.desc.substring(6)}</td>
                         <td>${getTagHtml(info.tag)}</td>
                         <td><a href="${sourceUrl}" target="_blank">Source</a></td>
                         <td><a href="${downloadUrl}" class="download-btn" target="_blank" title="${info.desc}">下载</a></td>
@@ -284,7 +289,6 @@
             }
         }
 
-        // 页面加载完成后立即拉取数据
         document.addEventListener('DOMContentLoaded', loadPluginData);
     </script>
 </body>
